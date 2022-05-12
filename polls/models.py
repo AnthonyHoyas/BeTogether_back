@@ -28,5 +28,10 @@ class Vote(models.Model):
     class Meta:
         unique_together = ("poll", "voted_by")
 
-
+class Learner_project(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=128)
+    description = models.TextField
+    database_schema_picture = models.ImageField(upload_to="images", blank=True, null=True)
+    mockup_picture = models.ImageField(upload_to="images", blank=True, null=True)
         
