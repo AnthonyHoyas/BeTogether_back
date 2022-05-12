@@ -32,6 +32,8 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
+CSRF_TRUSTED_ORIGINS = ['https://infinite-oasis-89157.herokuapp.com']
 ALLOWED_HOSTS = []
 
 
