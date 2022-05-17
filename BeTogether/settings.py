@@ -37,7 +37,6 @@ CSRF_TRUSTED_ORIGINS = ['https://infinite-oasis-89157.herokuapp.com']
 ALLOWED_HOSTS = []
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3030',
     'https://infinite-oasis-89157.herokuapp.com',
 ]
 # Application definition
