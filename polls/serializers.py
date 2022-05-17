@@ -1,7 +1,9 @@
 from rest_framework import serializers
 
 from .models import Poll, Choice, Vote
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from users.models import CustomUser
+
 from rest_framework.authtoken.models import Token
 
 
@@ -29,12 +31,12 @@ class PollSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = User
+        model = CustomUser
         fields = ('username','first_name', 'last_name', 'email', 'password')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        user = User(
+        user = CustomUser(
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
             username=validated_data['username'],
