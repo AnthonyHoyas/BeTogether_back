@@ -2,6 +2,7 @@
 from operator import mod
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import ArrayField
 
 
 class Poll(models.Model):
@@ -60,3 +61,10 @@ class User_per_group(models.Model):
     groups = models.ForeignKey(Groups, on_delete=models.CASCADE)
     # user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     user = models.ManyToManyField(User)
+
+class Vote_list(models.Model):
+    whishlist = ArrayField(
+       models.CharField(max_length=512)
+   )
+    voted_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    asigned_to = models.ForeignKey(Group_project, on_delete=models.CASCADE, blank=True, null=True )
