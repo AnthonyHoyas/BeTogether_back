@@ -51,11 +51,12 @@ class Groups(models.Model):
     name = models.CharField(max_length=128, blank=True, null=True)
     group_project = models.ForeignKey(Group_project, on_delete=models.CASCADE)
     learner_project = models.OneToOneField(Learner_project, on_delete=models.CASCADE)
-    user = models.ManyToManyField(User, through='User_per_group', related_name='+')
+    # user = models.ManyToManyField(User, through='User_per_group', related_name='+')
 
     def __str__(self):
         return self.name
 
 class User_per_group(models.Model):
     groups = models.ForeignKey(Groups, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    # user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ManyToManyField(User)
