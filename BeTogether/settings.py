@@ -34,11 +34,13 @@ DEBUG = True
 
 
 CSRF_TRUSTED_ORIGINS = ['https://infinite-oasis-89157.herokuapp.com']
-ALLOWED_HOSTS = []
 
-CORS_ALLOWED_ORIGINS = [
-    'https://infinite-oasis-89157.herokuapp.com',
-]
+CORS_ORIGIN_ALLOW_ALL = True
+ALLOWED_HOSTS = ['*']
+
+# CORS_ALLOWED_ORIGINS = [
+#     'https://infinite-oasis-89157.herokuapp.com',
+# ]
 # Application definition
 
 INSTALLED_APPS = [
