@@ -64,7 +64,7 @@ class User_per_group(models.Model):
 
 class Vote_list(models.Model):
     whishlist = ArrayField(
-                                models.CharField(max_length=512)
+                                models.CharField(max_length=512, blank=True, null=True)
    )
     voted_by =                  models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     asigned_to =                models.ForeignKey(Group_project, on_delete=models.CASCADE, blank=True, null=True )

@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404
 from .models import Poll, Choice
 
 from .serializers import PollSerializer, ChoiceSerializer, VoteSerializer, UserSerializer
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 
 
 class ChoiceList(generics.ListCreateAPIView):
@@ -64,7 +64,8 @@ class LoginView(APIView):
         password = request.data.get("password")
         user = authenticate(username=username, password=password)
         if user:
+            login(request, user)
             return Response({"token": user.auth_token.key})
-            
+
         else:
             return Response({"error": "Wrong Credentials"}, status=status.HTTP_400_BAD_REQUEST)
