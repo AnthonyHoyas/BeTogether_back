@@ -1,3 +1,4 @@
+from django.http import HttpResponse, HttpResponseRedirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics
@@ -5,11 +6,11 @@ from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.exceptions import PermissionDenied
 
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from .models import Poll, Choice
 
 from .serializers import PollSerializer, ChoiceSerializer, VoteSerializer, UserSerializer
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 
 class ChoiceList(generics.ListCreateAPIView):
@@ -69,3 +70,9 @@ class LoginView(APIView):
 
         else:
             return Response({"error": "Wrong Credentials"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LogoutView(APIView):
+    def get(self, request):
+        logout(request)
+        return redirect('login')
