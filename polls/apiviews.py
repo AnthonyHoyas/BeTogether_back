@@ -7,9 +7,9 @@ from rest_framework import viewsets
 from rest_framework.exceptions import PermissionDenied
 
 from django.shortcuts import get_object_or_404, redirect
-from .models import Poll, Choice
+from .models import Group_project, Poll, Choice
 
-from .serializers import PollSerializer, ChoiceSerializer, VoteSerializer, UserSerializer
+from .serializers import GroupProjectsSerializer, PollSerializer, ChoiceSerializer, VoteSerializer, UserSerializer
 from django.contrib.auth import authenticate, login, logout
 
 
@@ -76,3 +76,11 @@ class LogoutView(APIView):
     def get(self, request):
         logout(request)
         return redirect('login')
+
+class GroupProjectsView(APIView):
+    serializer_class = GroupProjectsSerializer
+
+    def get(self, request):
+        queryset = Group_project.objects.all()
+        Group_project = get_object_or_404(queryset, user=request.user)
+

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Poll, Choice, Vote
+from .models import Group_project, Poll, Choice, Vote
 # from django.contrib.auth.models import User
 from users.models import CustomUser
 
@@ -27,6 +27,13 @@ class PollSerializer(serializers.ModelSerializer):
     class Meta:
         model = Poll
         fields = '__all__'
+
+class GroupProjectsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Group_project
+        fields = '__all__'
+
 
 class UserSerializer(serializers.ModelSerializer):
 
