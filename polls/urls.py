@@ -8,7 +8,7 @@ from polls import apiviews
 
 
 router = DefaultRouter()
-router.register('', PollViewSet, basename='polls')
+router.register('', PollViewSet, basename='index')
 
 urlpatterns = [
 
@@ -17,10 +17,11 @@ urlpatterns = [
     path("users/", UserCreate.as_view(), name="user_create"),
     path("login/", LoginView.as_view(), name="login"),
     path("logout/", LogoutView.as_view(), name="logout"),
-    path("group_projects/all", apiviews.get_all_group_projects, name="test"),
+    path("group_projects/all", apiviews.get_all_group_projects, name="group_projects"),
     path("group_projects/<int:pk>", apiviews.get_all_group_projects, name="test"),
+    path("learner_projects/all", apiviews.get_all_learner_projects, name="learner_projects"),
+    path("learner_projects/<int:pk>", apiviews.get_all_learner_projects, name="learner_projects"),
 
-    # path("group_projects/", GroupProjectsView.as_view(), name="group_projects"),
 
 
 

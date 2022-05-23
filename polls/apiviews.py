@@ -8,9 +8,9 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.decorators import api_view
 
 from django.shortcuts import get_object_or_404, redirect
-from .models import Group_project, Poll, Choice
+from .models import Group_project, Learner_project, Poll, Choice
 
-from .serializers import GroupProjectsSerializer, PollSerializer, ChoiceSerializer, VoteSerializer, UserSerializer
+from .serializers import GroupProjectsSerializer, LearnerProjectsSerializer, PollSerializer, ChoiceSerializer, VoteSerializer, UserSerializer
 from django.contrib.auth import authenticate, login, logout
 
 
@@ -91,3 +91,29 @@ def get_all_group_projects(request):
         gp = Group_project.objects.all()
         serializer = GroupProjectsSerializer(gp, many=True)
         return Response(serializer.data)
+
+@api_view(('GET',))
+def get_all_learner_projects(request, self):
+    if request.method == 'GET':
+        lp = Learner_project.objects.get(pk=self.kwargs["pk"])
+        serializer = LearnerProjectsSerializer(lp, many=True)
+        return Response(serializer.data)
+
+# class CreateLearnerProject(APIView):
+#     serializer_class = LearnerProjectsSerializer
+
+#     def post(self, user, request, pk, choice_pk):
+#         data = {'name': name, 'poll': pk, 'voted_by': created_by}
+#         serializer = LearnerProjectsSerializer(data=data)
+#         if serializer.is_valid():
+#             CreateLearnerProject = serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         else:
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#     user =                      models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+#     name =                      models.CharField(max_length=128)
+#     description =               models.TextField
+#     database_schema_picture =   models.ImageField(upload_to="images", blank=True, null=True)
+#     mockup_picture =            models.ImageField(upload_to="images", blank=True, null=True)
+#     group_project = 

@@ -10,7 +10,7 @@ class CustomUser(AbstractUser):
     date_of_birth = models.DateField(default=date.today)
     profile_picture = models.ImageField(upload_to="profile_pictures", blank=True, null=True)
     promotion = models.ForeignKey('polls.Promotion', blank=True, null=True, on_delete=models.CASCADE)
-    username = models.CharField(max_length=128, blank=True, null=True, default='' )
+    username = models.CharField(max_length=128, blank=True, null=True, default='a' )
     email = models.EmailField(('email'), unique=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
