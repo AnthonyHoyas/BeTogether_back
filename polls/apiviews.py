@@ -93,9 +93,9 @@ def get_all_group_projects(request):
         return Response(serializer.data)
 
 @api_view(('GET',))
-def get_all_learner_projects(request, self):
+def get_all_learner_projects(request):
     if request.method == 'GET':
-        lp = Learner_project.objects.get(pk=self.kwargs["pk"])
+        lp = Learner_project.objects.filter()
         serializer = LearnerProjectsSerializer(lp, many=True)
         return Response(serializer.data)
 
