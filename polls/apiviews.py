@@ -5,6 +5,7 @@ from rest_framework import generics
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.decorators import api_view
 
 from django.shortcuts import get_object_or_404, redirect
 from .models import Group_project, Poll, Choice
@@ -61,9 +62,9 @@ class LoginView(APIView):
     permission_classes = ()
 
     def post(self, request,):
-        username = request.data.get("username")
+        email = request.data.get("email")
         password = request.data.get("password")
-        user = authenticate(username=username, password=password)
+        user = authenticate(email=email, password=password)
         if user:
             login(request, user)
             return Response({"token": user.auth_token.key})
@@ -84,3 +85,10 @@ class GroupProjectsView(APIView):
         queryset = Group_project.objects.all()
         Group_project = get_object_or_404(queryset, user=request.user)
 
+
+@api_view(('GET',))
+def get_all_group_projects(request):
+    if request.method == 'GET':
+        gp = Group_project.objects.all()
+        serializer = GroupProjectsSerializer(gp, many=True)
+        return Response(serializer.data)
