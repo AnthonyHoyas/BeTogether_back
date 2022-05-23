@@ -33,7 +33,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 DEBUG = True
 
 
-CSRF_TRUSTED_ORIGINS = ['https://infinite-oasis-89157.herokuapp.com']
+CSRF_TRUSTED_ORIGINS = ['https://be-together-backend.herokuapp.com/']
 
 CORS_ORIGIN_ALLOW_ALL = True
 ALLOWED_HOSTS = ['*']
