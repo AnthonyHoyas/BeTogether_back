@@ -57,7 +57,6 @@ class UserCreate(generics.CreateAPIView):
     permission_classes = ()
     serializer_class = UserSerializer
 
-
 class LoginView(APIView):
     permission_classes = ()
 
