@@ -24,6 +24,7 @@ urlpatterns = [
     path("learner_projects/<int:pk>", apiviews.get_all_learner_projects_by_id, name="learner_projects_byid"),
     path("users/<int:pk>", apiviews.get_users_by_id, name="users_byid"),
     path("users/all", apiviews.get_all_users, name="users_byid"),
+    path("users/profile", apiviews.get_own_profile_info, name="users_byid"),
 
 
 

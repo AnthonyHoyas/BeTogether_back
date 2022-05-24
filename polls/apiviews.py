@@ -156,3 +156,11 @@ def create_learner_projects(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# To get own profile
+
+@api_view(('GET',))
+def get_own_profile_info(request):
+        serializer = CustomUserSerializer(request.user)
+        return Response(serializer.data)
+
