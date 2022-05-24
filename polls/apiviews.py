@@ -70,7 +70,9 @@ class LoginView(APIView):
         user = authenticate(email=email, password=password)
         if user:
             login(request, user)
-            return Response({"token": user.auth_token.key})
+            print('Succes login')
+            return Response({"token": user.auth_token.key,
+                             "Congratulation":"you have succefylly loged in"})
 
         else:
             return Response({"error": "Wrong Credentials"}, status=status.HTTP_400_BAD_REQUEST)

@@ -33,13 +33,17 @@ SECRET_KEY = os.environ['SECRET_KEY']
 DEBUG = True
 
 
-CSRF_TRUSTED_ORIGINS = ['https://be-together-backend.herokuapp.com', 'http://localhost:3000' ]
+CSRF_TRUSTED_ORIGINS = ['https://be-together-backend.herokuapp.com',
+                        'http://localhost:3000',
+                        'https://betogether-becode.herokuapp.com',
+ ]
 
 CORS_ORIGIN_ALLOW_ALL = False
 
 CORS_ALLOWED_ORIGINS = [
-       'https://be-together-backend.herokuapp.com',
-       'http://localhost:3000'
+        'https://be-together-backend.herokuapp.com',
+        'https://betogether-becode.herokuapp.com',
+        'http://localhost:3000'
 ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
@@ -143,7 +147,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        # 'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
