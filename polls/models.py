@@ -42,9 +42,9 @@ class Vote(models.Model):
 class Learner_project(models.Model):
     user =                      models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     name =                      models.CharField(max_length=128)
-    description =               models.TextField
-    database_schema_picture =   models.ImageField(upload_to="images", blank=True, null=True)
-    mockup_picture =            models.ImageField(upload_to="images", blank=True, null=True)
+    description =               models.TextField(default= "")
+    database_schema_picture =   models.TextField(default= "")
+    mockup_picture =            models.TextField(default= "")
     group_project =             models.ForeignKey(Group_project, on_delete=models.CASCADE, null=True)
 
     def __str__(self):

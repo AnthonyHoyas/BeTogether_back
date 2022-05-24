@@ -20,6 +20,7 @@ urlpatterns = [
     path("group_projects/all", apiviews.get_all_group_projects, name="group_projects"),
     path("group_projects/<int:pk>", apiviews.get_all_group_projects, name="test"),
     path("learner_projects/all", apiviews.get_all_learner_projects, name="learner_projects"),
+    path("learner_projects/new", apiviews.create_learner_projects, name="new_learner_projects"),
     path("learner_projects/<int:pk>", apiviews.get_all_learner_projects, name="learner_projects"),
 
 

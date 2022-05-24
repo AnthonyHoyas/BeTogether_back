@@ -71,8 +71,7 @@ class LoginView(APIView):
         if user:
             login(request, user)
             print('Succes login')
-            return Response({"token": user.auth_token.key,
-                             "Congratulation":"you have succefylly loged in"})
+            return Response({"token": user.auth_token.key})
 
         else:
             return Response({"error": "Wrong Credentials"}, status=status.HTTP_400_BAD_REQUEST)
@@ -109,21 +108,37 @@ def get_all_learner_projects(request):
         serializer = LearnerProjectsSerializer(lp, many=True)
         return Response(serializer.data)
 
-# class CreateLearnerProject(APIView):
-#     serializer_class = LearnerProjectsSerializer
+@api_view(('POST',))  
+def create_learner_projects(request):
+        serializer = LearnerProjectsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# def create_learner_projects(request, user, name_pk, description_pk, database_schema_picture_pk, mockup_picture_pk ):
+#     if request.method == 'POST':
 
-#     def post(self, user, request, pk, choice_pk):
-#         data = {'name': name, 'poll': pk, 'voted_by': created_by}
+#         data = {'user': user, 'name': name_pk, 'description':description_pk, 'database_schema_picture':database_schema_picture_pk, 'mockup_picture':mockup_picture_pk}
 #         serializer = LearnerProjectsSerializer(data=data)
 #         if serializer.is_valid():
-#             CreateLearnerProject = serializer.save()
+#             serializer.save()
 #             return Response(serializer.data, status=status.HTTP_201_CREATED)
 #         else:
 #             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-#     user =                      models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-#     name =                      models.CharField(max_length=128)
-#     description =               models.TextField
-#     database_schema_picture =   models.ImageField(upload_to="images", blank=True, null=True)
-#     mockup_picture =            models.ImageField(upload_to="images", blank=True, null=True)
-#     group_project = 
+
+    # user =                      models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    # name =                      models.CharField(max_length=128)
+    # description =               models.TextField
+    # database_schema_picture =   models.ImageField(upload_to="images", blank=True, null=True)
+    # mockup_picture =            models.ImageField(upload_to="images", blank=True, null=True)
+    # group_project =  
+    # def post(self, request, pk, choice_pk):
+    #     voted_by = request.data.get("voted_by")
+    #     data = {'choice': choice_pk, 'poll': pk, 'voted_by': voted_by}
+    #     serializer = VoteSerializer(data=data)
+    #     if serializer.is_valid():
+    #         vote = serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     else:
+    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
