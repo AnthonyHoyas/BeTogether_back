@@ -1,3 +1,4 @@
+from unicodedata import name
 from django.http import HttpResponse, HttpResponseRedirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -18,6 +19,7 @@ from django.middleware.csrf import get_token
 
 
 
+# this should be gone
 class ChoiceList(generics.ListCreateAPIView):
     def get_queryset(self):
         queryset = Choice.objects.filter(poll_id=self.kwargs["pk"])
@@ -30,7 +32,7 @@ class ChoiceList(generics.ListCreateAPIView):
             raise PermissionDenied("You can not create choice for this poll.")
         return super().post(request, *args, **kwargs)
 
-
+# this should be gone
 class CreateVote(APIView):
     serializer_class = VoteSerializer
 
@@ -44,8 +46,7 @@ class CreateVote(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-
+# this should be gone
 class PollViewSet(viewsets.ModelViewSet):
     queryset = Poll.objects.all()
     serializer_class = PollSerializer
@@ -76,6 +77,7 @@ class LoginView(APIView):
         else:
             return Response({"error": "Wrong Credentials"}, status=status.HTTP_400_BAD_REQUEST)
 
+# we don't need that now
 class CSRFGeneratorView(APIView):
     def get(self, request):
         csrf_token = get_token(request)
@@ -86,6 +88,7 @@ class LogoutView(APIView):
         logout(request)
         return redirect('login')
 
+# To get all group projects class based view doesn't work
 class GroupProjectsView(APIView):
     serializer_class = GroupProjectsSerializer
 
@@ -93,7 +96,7 @@ class GroupProjectsView(APIView):
         queryset = Group_project.objects.all()
         Group_project = get_object_or_404(queryset, user=request.user)
 
-
+# To get all group projects
 @api_view(('GET',))
 def get_all_group_projects(request):
     if request.method == 'GET':
@@ -101,13 +104,28 @@ def get_all_group_projects(request):
         serializer = GroupProjectsSerializer(gp, many=True)
         return Response(serializer.data)
 
+
+# To get all learner projects
+
 @api_view(('GET',))
 def get_all_learner_projects(request):
     if request.method == 'GET':
         lp = Learner_project.objects.filter()
         serializer = LearnerProjectsSerializer(lp, many=True)
-        return Response(serializer.data)
+        
+    return Response(serializer.data)
 
+# To get learner projects by id
+
+@api_view(('GET',))
+def get_all_learner_projects_by_id(request, pk):
+    if request.method == 'GET':
+        lp = Learner_project.objects.filter(id=pk)
+        serializer = LearnerProjectsSerializer(lp, many=True)
+        
+    return Response(serializer.data)
+
+# To create a learner projects
 @api_view(('POST',))  
 def create_learner_projects(request):
         serializer = LearnerProjectsSerializer(data=request.data)
@@ -115,30 +133,3 @@ def create_learner_projects(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-# def create_learner_projects(request, user, name_pk, description_pk, database_schema_picture_pk, mockup_picture_pk ):
-#     if request.method == 'POST':
-
-#         data = {'user': user, 'name': name_pk, 'description':description_pk, 'database_schema_picture':database_schema_picture_pk, 'mockup_picture':mockup_picture_pk}
-#         serializer = LearnerProjectsSerializer(data=data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         else:
-#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-    # user =                      models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    # name =                      models.CharField(max_length=128)
-    # description =               models.TextField
-    # database_schema_picture =   models.ImageField(upload_to="images", blank=True, null=True)
-    # mockup_picture =            models.ImageField(upload_to="images", blank=True, null=True)
-    # group_project =  
-    # def post(self, request, pk, choice_pk):
-    #     voted_by = request.data.get("voted_by")
-    #     data = {'choice': choice_pk, 'poll': pk, 'voted_by': voted_by}
-    #     serializer = VoteSerializer(data=data)
-    #     if serializer.is_valid():
-    #         vote = serializer.save()
-    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #     else:
-    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
