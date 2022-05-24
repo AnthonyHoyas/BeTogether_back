@@ -13,6 +13,9 @@ from .models import Group_project, Learner_project, Poll, Choice
 from .serializers import GroupProjectsSerializer, LearnerProjectsSerializer, PollSerializer, ChoiceSerializer, VoteSerializer, UserSerializer
 from django.contrib.auth import authenticate, login, logout
 
+from django.middleware.csrf import get_token
+
+
 
 class ChoiceList(generics.ListCreateAPIView):
     def get_queryset(self):
@@ -71,6 +74,10 @@ class LoginView(APIView):
         else:
             return Response({"error": "Wrong Credentials"}, status=status.HTTP_400_BAD_REQUEST)
 
+class CSRFGeneratorView(APIView):
+    def get(self, request):
+        csrf_token = get_token(request)
+        return Response(csrf_token)
 
 class LogoutView(APIView):
     def get(self, request):
