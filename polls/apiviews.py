@@ -12,6 +12,7 @@ from .models import Group_project, Learner_project, Poll, Choice
 
 from .serializers import GroupProjectsSerializer, LearnerProjectsSerializer, PollSerializer, ChoiceSerializer, VoteSerializer, UserSerializer
 from django.contrib.auth import authenticate, login, logout
+from rest_framework import permissions
 
 from django.middleware.csrf import get_token
 
@@ -61,7 +62,7 @@ class UserCreate(generics.CreateAPIView):
     serializer_class = UserSerializer
 
 class LoginView(APIView):
-    permission_classes = ()
+    permission_classes = (permissions.AllowAny,)
 
     def post(self, request,):
         email = request.data.get("email")
