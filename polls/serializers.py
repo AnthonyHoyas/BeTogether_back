@@ -40,6 +40,12 @@ class LearnerProjectsSerializer(serializers.ModelSerializer):
         model = Learner_project
         fields = '__all__'
 
+class CustomUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CustomUser
+        fields = '__all__'
+
 
 class UserSerializer(serializers.ModelSerializer):
 

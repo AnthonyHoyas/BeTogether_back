@@ -9,9 +9,11 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.decorators import api_view
 
 from django.shortcuts import get_object_or_404, redirect
+
+from users.models import CustomUser
 from .models import Group_project, Learner_project, Poll, Choice
 
-from .serializers import GroupProjectsSerializer, LearnerProjectsSerializer, PollSerializer, ChoiceSerializer, VoteSerializer, UserSerializer
+from .serializers import CustomUserSerializer, GroupProjectsSerializer, LearnerProjectsSerializer, PollSerializer, ChoiceSerializer, VoteSerializer, UserSerializer
 from django.contrib.auth import authenticate, login, logout
 from rest_framework import permissions
 
@@ -115,6 +117,17 @@ def get_all_learner_projects(request):
         
     return Response(serializer.data)
 
+
+# To get all users
+
+@api_view(('GET',))
+def get_all_users(request):
+    if request.method == 'GET':
+        user = CustomUser.objects.filter()
+        serializer = CustomUserSerializer(user, many=True)
+        
+    return Response(serializer.data)    
+
 # To get learner projects by id
 
 @api_view(('GET',))
@@ -122,6 +135,16 @@ def get_all_learner_projects_by_id(request, pk):
     if request.method == 'GET':
         lp = Learner_project.objects.filter(id=pk)
         serializer = LearnerProjectsSerializer(lp, many=True)
+        
+    return Response(serializer.data)
+
+# To get users by id
+
+@api_view(('GET',))
+def get_users_by_id(request, pk):
+    if request.method == 'GET':
+        user = CustomUser.objects.filter(id=pk)
+        serializer = CustomUserSerializer(user, many=True)
         
     return Response(serializer.data)
 

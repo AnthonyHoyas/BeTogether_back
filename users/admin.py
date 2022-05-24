@@ -4,10 +4,10 @@ from .models import CustomUser
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
-    list_display = ('username','first_name', 'last_name', 'email', 'is_superuser', 'is_coach')
+    list_display = ('username','first_name', 'last_name', 'email', 'is_superuser', 'is_coach', 'uniqueID' )
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        (('Personal info'), {'fields': ('first_name', 'last_name', 'email', 'profile_picture', 'promotion')}),
+        (('Personal info'), {'fields': ('first_name', 'last_name', 'email', 'profile_picture', 'promotion', 'uniqueID')}),
         (('Permissions'), {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'is_coach'),
         }),
