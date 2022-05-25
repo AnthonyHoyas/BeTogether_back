@@ -1,5 +1,4 @@
-from unicodedata import name
-from django.http import HttpResponse, HttpResponseRedirect
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics
@@ -159,8 +158,15 @@ def create_learner_projects(request):
 
 # To get own profile
 
-@api_view(('GET',))
+@api_view(('GET', 'PATCH'))
 def get_own_profile_info(request):
+    if request.method == 'GET':
         serializer = CustomUserSerializer(request.user)
         return Response(serializer.data)
-
+    elif request.method == 'PATCH':
+        # user = CustomUser.objects.filter(id)
+        serializer = CustomUserSerializer(request.user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
