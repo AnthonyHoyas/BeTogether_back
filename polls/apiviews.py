@@ -100,7 +100,7 @@ class GroupProjectsView(APIView):
 
 # To get all group projects
 @api_view(('GET',))
-@permission_classes((IsAdminUser,))
+# @permission_classes((IsAdminUser,))
 def get_all_group_projects(request):
     
     if request.method == 'GET':
@@ -109,9 +109,8 @@ def get_all_group_projects(request):
         return Response(serializer.data)
 
 # To get group projects by ID
-
 @api_view(('GET',))
-@permission_classes((IsAdminUser,))
+# @permission_classes((IsAdminUser,))
 def get_group_projects_by_id(request, pk):
     if request.method == 'GET':
         gp = Group_project.objects.filter(id=pk)
@@ -121,7 +120,7 @@ def get_group_projects_by_id(request, pk):
 
 # To create group projects
 @api_view(('POST',))
-@permission_classes((IsAdminUser,))  
+# @permission_classes((IsAdminUser,))  
 def create_group_projects(request):
         serializer = GroupProjectsSerializer(data=request.data)
         if serializer.is_valid():
