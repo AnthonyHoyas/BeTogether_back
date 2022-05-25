@@ -1,10 +1,9 @@
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 
 from .models import Group_project, Learner_project, Poll, Choice, Vote
-# from django.contrib.auth.models import User
 from users.models import CustomUser
 
-from rest_framework.authtoken.models import Token
 
 
 class VoteSerializer(serializers.ModelSerializer):
@@ -28,6 +27,9 @@ class PollSerializer(serializers.ModelSerializer):
         model = Poll
         fields = '__all__'
 
+
+# ^to delete ^
+
 class GroupProjectsSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -46,6 +48,10 @@ class CustomUserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = '__all__'
 
+class ChangePasswordSerializer(serializers.Serializer):
+    model = CustomUser
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -65,3 +71,4 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         Token.objects.create(user=user)
         return user
+

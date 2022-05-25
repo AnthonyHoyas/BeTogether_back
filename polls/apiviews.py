@@ -5,16 +5,17 @@ from rest_framework import generics
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.exceptions import PermissionDenied
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 
 from django.shortcuts import get_object_or_404, redirect
 
 from users.models import CustomUser
 from .models import Group_project, Learner_project, Poll, Choice
 
-from .serializers import CustomUserSerializer, GroupProjectsSerializer, LearnerProjectsSerializer, PollSerializer, ChoiceSerializer, VoteSerializer, UserSerializer
+from .serializers import ChangePasswordSerializer, CustomUserSerializer, GroupProjectsSerializer, LearnerProjectsSerializer, PollSerializer, ChoiceSerializer, VoteSerializer, UserSerializer
 from django.contrib.auth import authenticate, login, logout
 from rest_framework import permissions
+from rest_framework.permissions import IsAuthenticated, IsAdminUser   
 
 from django.middleware.csrf import get_token
 
@@ -99,11 +100,35 @@ class GroupProjectsView(APIView):
 
 # To get all group projects
 @api_view(('GET',))
+@permission_classes((IsAdminUser,))
 def get_all_group_projects(request):
+    
     if request.method == 'GET':
         gp = Group_project.objects.all()
         serializer = GroupProjectsSerializer(gp, many=True)
         return Response(serializer.data)
+
+# To get group projects by ID
+
+@api_view(('GET',))
+@permission_classes((IsAdminUser,))
+def get_group_projects_by_id(request, pk):
+    if request.method == 'GET':
+        gp = Group_project.objects.filter(id=pk)
+        serializer = GroupProjectsSerializer(gp, many=True)
+        
+    return Response(serializer.data)
+
+# To create group projects
+@api_view(('POST',))
+@permission_classes((IsAdminUser,))  
+def create_group_projects(request):
+        serializer = GroupProjectsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 # To get all learner projects
@@ -156,7 +181,7 @@ def create_learner_projects(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# To get own profile
+# To get own profile and modify it
 
 @api_view(('GET', 'PATCH'))
 def get_own_profile_info(request):
@@ -169,4 +194,38 @@ def get_own_profile_info(request):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# To change password
+
+class ChangePasswordView(generics.UpdateAPIView):
+
+    serializer_class = ChangePasswordSerializer
+    model = CustomUser
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, queryset=None):
+        obj = self.request.user
+        return obj
+
+    def update(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            # Check old password
+            if not self.object.check_password(serializer.data.get("old_password")):
+                return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+            # set_password also hashes the password that the user will get
+            self.object.set_password(serializer.data.get("new_password"))
+            self.object.save()
+            response = {
+                'status': 'success',
+                'code': status.HTTP_200_OK,
+                'message': 'Password updated successfully',
+                'data': []
+            }
+
+            return Response(response)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
