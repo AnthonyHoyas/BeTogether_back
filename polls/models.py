@@ -61,6 +61,16 @@ class User_per_group(models.Model):
     groups =                    models.ForeignKey(Groups, on_delete=models.CASCADE)
     user =                      models.ManyToManyField(CustomUser)
 
+class Promotion(models.Model):
+    name =                      models.CharField(max_length=128, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+class User_per_promotion(models.Model):
+    promotion =                 models.ForeignKey(Promotion, on_delete=models.CASCADE)
+    user =                      models.ManyToManyField(CustomUser)
+
 class Vote_list(models.Model):
     whishlist = ArrayField(
                                 models.CharField(max_length=512, blank=True, null=True)
@@ -68,8 +78,3 @@ class Vote_list(models.Model):
     voted_by =                  models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     asigned_to =                models.ForeignKey(Group_project, on_delete=models.CASCADE, blank=True, null=True )
 
-class Promotion(models.Model):
-    name =                      models.CharField(max_length=128, blank=True, null=True)
-
-    def __str__(self):
-        return self.name

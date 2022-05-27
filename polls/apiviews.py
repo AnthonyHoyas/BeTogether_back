@@ -10,9 +10,20 @@ from rest_framework.decorators import api_view, permission_classes
 from django.shortcuts import get_object_or_404, redirect
 
 from users.models import CustomUser
-from .models import Group_project, Learner_project, Poll, Choice
+from .models import Group_project, Learner_project, Poll, Choice, User_per_promotion, Vote_list
 
-from .serializers import ChangePasswordSerializer, CustomUserSerializer, GroupProjectsSerializer, LearnerProjectsSerializer, PollSerializer, ChoiceSerializer, VoteSerializer, UserSerializer
+from .serializers import (    
+    ChangePasswordSerializer,
+    CustomUserSerializer,
+    GroupProjectsSerializer, 
+    LearnerProjectsSerializer, 
+    PollSerializer, 
+    ChoiceSerializer,
+    UserPerPromotionSerializer, 
+    VoteListSerializer, 
+    VoteSerializer, 
+    UserSerializer
+)
 from django.contrib.auth import authenticate, login, logout
 from rest_framework import permissions
 from rest_framework.permissions import IsAuthenticated, IsAdminUser   
@@ -100,7 +111,7 @@ class GroupProjectsView(APIView):
 
 # To get all group projects
 @api_view(('GET',))
-# @permission_classes((IsAdminUser,))
+@permission_classes((IsAdminUser,))
 def get_all_group_projects(request):
     
     if request.method == 'GET':
@@ -110,7 +121,7 @@ def get_all_group_projects(request):
 
 # To get group projects by ID
 @api_view(('GET',))
-# @permission_classes((IsAdminUser,))
+@permission_classes((IsAdminUser,))
 def get_group_projects_by_id(request, pk):
     if request.method == 'GET':
         gp = Group_project.objects.filter(id=pk)
@@ -120,7 +131,7 @@ def get_group_projects_by_id(request, pk):
 
 # To create group projects
 @api_view(('POST',))
-# @permission_classes((IsAdminUser,))  
+@permission_classes((IsAdminUser,))  
 def create_group_projects(request):
         serializer = GroupProjectsSerializer(data=request.data)
         if serializer.is_valid():
@@ -228,3 +239,36 @@ class ChangePasswordView(generics.UpdateAPIView):
             return Response(response)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+# To create a voting list
+@api_view(('POST',))  
+def create_vote_list(request):
+        serializer = VoteListSerializer(data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# To get all vote list
+
+@api_view(('GET',))
+def get_all_vote_list(request):
+    if request.method == 'GET':
+        list = Vote_list.objects.filter()
+        serializer = VoteListSerializer(list, many=True)
+        
+    return Response(serializer.data) 
+
+
+# To get all users per promotion
+
+@api_view(('GET',))
+def get_all_users_per_promotion(request):
+    if request.method == 'GET':
+        list = User_per_promotion.objects.filter()
+        serializer = UserPerPromotionSerializer(list, many=True)
+        
+    return Response(serializer.data) 

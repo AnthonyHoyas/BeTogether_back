@@ -1,7 +1,8 @@
+# from attr import field
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from .models import Group_project, Learner_project, Poll, Choice, Vote
+from .models import Group_project, Learner_project, Poll, Choice, User_per_promotion, Vote, Vote_list
 from users.models import CustomUser
 
 
@@ -52,6 +53,18 @@ class ChangePasswordSerializer(serializers.Serializer):
     model = CustomUser
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
+
+class VoteListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Vote_list
+        fields = '__all__'
+
+class UserPerPromotionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User_per_promotion
+        fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
 
