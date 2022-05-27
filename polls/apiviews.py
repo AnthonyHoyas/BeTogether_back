@@ -10,7 +10,7 @@ from rest_framework.decorators import api_view, permission_classes
 from django.shortcuts import get_object_or_404, redirect
 
 from users.models import CustomUser
-from .models import Group_project, Learner_project, Poll, Choice, User_per_promotion, Vote_list
+from .models import Group_project, Learner_project, Poll, Choice, Promotion, User_per_promotion, Vote_list
 
 from .serializers import (    
     ChangePasswordSerializer,
@@ -19,6 +19,7 @@ from .serializers import (
     LearnerProjectsSerializer, 
     PollSerializer, 
     ChoiceSerializer,
+    PromotionSerializer,
     UserPerPromotionSerializer, 
     VoteListSerializer, 
     VoteSerializer, 
@@ -262,6 +263,16 @@ def get_all_vote_list(request):
         
     return Response(serializer.data) 
 
+
+# To get all promotion
+
+@api_view(('GET',))
+def get_all_promotion(request):
+    if request.method == 'GET':
+        list = Promotion.objects.filter()
+        serializer = PromotionSerializer(list, many=True)
+        
+    return Response(serializer.data) 
 
 # To get all users per promotion
 

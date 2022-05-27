@@ -70,6 +70,7 @@ class Promotion(models.Model):
 class User_per_promotion(models.Model):
     promotion =                 models.ForeignKey(Promotion, on_delete=models.CASCADE)
     user =                      models.ManyToManyField(CustomUser)
+    
 
 class Vote_list(models.Model):
     whishlist = ArrayField(

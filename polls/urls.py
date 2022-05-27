@@ -33,7 +33,9 @@ urlpatterns = [
     path("users/profile/vote_list/new", apiviews.create_vote_list, name="new_vote_list"),
     path("users/profile/vote_list/all", apiviews.get_all_vote_list, name="vote_list_show_all"),
 
-    path("usersperpromotion", apiviews.get_all_users_per_promotion, name="user_per_promotion_show_all")
+    path("usersperpromotion", apiviews.get_all_users_per_promotion, name="user_per_promotion_show_all"),
+    path("promotion/all", apiviews.get_all_promotion, name="promotion_show_all")
+
 ]   
 
 urlpatterns += router.urls

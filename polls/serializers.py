@@ -2,7 +2,7 @@
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from .models import Group_project, Learner_project, Poll, Choice, User_per_promotion, Vote, Vote_list
+from .models import Group_project, Learner_project, Poll, Choice, Promotion, User_per_promotion, Vote, Vote_list
 from users.models import CustomUser
 
 
@@ -64,6 +64,12 @@ class UserPerPromotionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User_per_promotion
+        fields = '__all__'
+
+class PromotionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Promotion
         fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
