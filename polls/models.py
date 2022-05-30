@@ -77,5 +77,6 @@ class Vote_list(models.Model):
                                 models.CharField(max_length=512, blank=True, null=True)
    )
     voted_by =                  models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    asigned_to =                models.ForeignKey(Group_project, on_delete=models.CASCADE, blank=True, null=True )
+    asigned_to =                models.ForeignKey(Groups, on_delete=models.CASCADE, blank=True, null=True )
+    group_project_id =          models.ForeignKey(Group_project, on_delete=models.CASCADE, blank=True, null=True )
 
