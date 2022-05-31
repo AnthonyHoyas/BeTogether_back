@@ -34,7 +34,11 @@ urlpatterns = [
     path("users/profile/vote_list/all", apiviews.get_all_vote_list, name="vote_list_show_all"),
 
     path("usersperpromotion", apiviews.get_all_users_per_promotion, name="user_per_promotion_show_all"),
-    path("promotion/all", apiviews.get_all_promotion, name="promotion_show_all")
+    path("promotion/all", apiviews.get_all_promotion, name="promotion_show_all"),
+
+    path("sort", apiviews.sort, name="sort"),
+
+    path("groups", apiviews.get_all_groups, name="group_show_all"),
 
 ]   
 
